@@ -1,17 +1,21 @@
 # Deployment Information
 pods_status:
-  main_pods_running: #TODO: Enter number of main pods running
-  canary_pods_running: #TODO: Enter number of canary pods running
+  main_pods_running: 12
+	##kubectl get pods -A | grep canary-demo | wc
+	##     12      94    1332
+  canary_pods_running: 0
+	## kubectl get pods -A | grep canary-demo-canary | wc
+	##      0       0       0
 
 # Service Information
 service_endpoints:
-  main_service_cluster_ip: #TODO: Enter the ClusterIP of main service
-  canary_service_cluster_ip: #TODO: Enter the ClusterIP of canary service
+  main_service_cluster_ip: 10.111.115.168
+  canary_service_cluster_ip: 10.99.115.70
 
 # Ingress Information
 ingress_details:
-  address: #TODO: Enter the Ingress controller IP address
-  host: #TODO: Enter the configured host (should be canary-demo.local)
+  address: 192.168.49.2
+  host: canary-demo.local
 
 # Metrics
 main_deployment_metrics:
@@ -33,21 +37,21 @@ traffic_test_results:
 
 # Prometheus Queries
 prometheus_metrics:
-  main_request_rate: #TODO: Enter the result of rate(http_requests_total{version="v1"}[5m])
-  canary_request_rate: #TODO: Enter the result of rate(http_requests_total{version="v2"}[5m])
+  main_request_rate: NO DATA
+  canary_request_rate: NO DATA 
 
 # Rollback Test
 rollback_test:
-  previous_revision: #TODO: Enter the revision number before rollback
-  rollback_command_used: #TODO: Enter the helm rollback command you used
-  time_to_rollback_seconds: #TODO: Enter how long the rollback took to complete
+  previous_revision: 2
+  rollback_command_used: helm rollback canary-demo 2 -n canary-demo
+  time_to_rollback_seconds: 1
 
 # Error Budget Calculation (based on 99.9% SLO)
 error_budget:
-  monthly_error_budget_seconds: #TODO: Calculate and enter the monthly error budget in seconds
-  remaining_error_budget_percentage: #TODO: Enter current remaining error budget percentage
+  monthly_error_budget_seconds: 2592.00
+  remaining_error_budget_percentage: 100.00
 
 # Additional Observations
 observations:
-  unexpected_behaviors: #TODO: List any unexpected behaviors you observed
-  suggested_improvements: #TODO: List any improvements you would suggest
+  unexpected_behaviors: grafana web interface did not match described steps; promQL queries returned no results on first attempt
+  suggested_improvements: add a revision date to the walk through to indicate when these instructions were "last known good" and  ensure all revision data is current for the project period by testing them before the project is announced. 
